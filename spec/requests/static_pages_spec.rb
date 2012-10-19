@@ -19,7 +19,7 @@ describe "StaticPages" do
     end
 
     it "should have the right title" do
-      page.should have_selector('title', text:"#{base_title} | Home")
+      page.should have_selector('title', text:"#{base_title}")
     end
   end
 
