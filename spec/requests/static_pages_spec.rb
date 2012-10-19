@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe "StaticPages" do
+  let(:base_title) { 'Ruby on Rails Tutorial Sample App' } 
+
+
   describe "Routing" do  
     it "should receive 200 (OK) Status" do 
       get '/static_pages/home' 	  
@@ -16,8 +19,7 @@ describe "StaticPages" do
     end
 
     it "should have the right title" do
-      page.should have_selector('title', 
-        text:'Ruby on Rails Tutorial Sample App | Home')
+      page.should have_selector('title', text:"#{base_title} | Home")
     end
   end
 
@@ -29,8 +31,7 @@ describe "StaticPages" do
     end
 
     it "should have the right title" do
-      page.should have_selector('title', 
-        text:'Ruby on Rails Tutorial Sample App | Help')
+      page.should have_selector('title', text:"#{base_title} | Help")
     end
   end
 
@@ -43,8 +44,19 @@ describe "StaticPages" do
     end
 
     it "should have the right title" do
-      page.should have_selector('title', 
-        text:'Ruby on Rails Tutorial Sample App | About')
+      page.should have_selector('title', text:"#{base_title} | About")
+    end
+  end
+
+  describe "Contact page" do
+    before { visit '/static_pages/contact' }
+
+    it "should have the heading 'Contact Us'" do      
+      page.should have_selector('h1', text:'Contact Us')
+    end
+
+    it "should have the right title" do
+      page.should have_selector('title', text:"#{base_title} | Contact")
     end
   end
 
