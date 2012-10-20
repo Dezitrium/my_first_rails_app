@@ -67,17 +67,30 @@ describe User do
       end
 
       it 'when is a valid address' do 
-        %w(test@test.de TEST@TEST.de user@foo.COM user_name@foo.COM A_US-ER@f.b.org frst.lst@foo.jp a+b@baz.cn).each do |valid_email|
+        %w(test@test.de TEST@TEST.de 
+          user@foo.COM user_name@foo.COM 
+          A_US-ER@f.b.org frst.lst@foo.jp 
+          a+b@baz.cn).each do |valid_email|
           @user.email = valid_email
           should be_valid          
         end        
       end
 
       it 'when is a invalid address' do
-        %w(test test@test@de user@foo,com user_at_foo.org example.user@foo. foo@bar_baz.com foo@bar+baz.com).each do |invalid_email|
+        %w(test test@test@de
+         user@foo,com user_at_foo.org 
+         example.user@foo. foo@bar_baz.com 
+         foo@bar+baz.com).each do |invalid_email|
           @user.email = invalid_email
           should_not be_valid          
         end
+      end
+
+      it 'should be saved in downcase' do
+        mixed_case_email = 'eXaMpLe@tEsT.COM'
+        @user.email = mixed_case_email
+        @user.save
+        @user.reload.email.should == mixed_case_email.downcase
       end
 
     end
