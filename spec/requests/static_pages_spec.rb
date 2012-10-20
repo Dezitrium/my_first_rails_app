@@ -8,6 +8,24 @@ describe "StaticPages" do
 
     it { should have_selector('h1', text:'Sample App') }
     it { should have_selector('title', text:full_title('')) }
+
+    it "should have the right links on the layout" do
+      
+      click_link 'About'
+      page.should have_selector 'title', text: full_title('About Us')
+      click_link 'Help'
+      p current_path
+      #page.should # fill in
+      click_link 'Contact'
+      p current_path
+      #page.should # fill in
+      click_link 'Home'
+      click_link 'Sign up now!'
+      #page.should # fill in
+      click_link 'sample app'
+      #page.should # fill in
+      pending 'find better solution'
+    end
   end
 
   describe "Help page" do
@@ -31,5 +49,5 @@ describe "StaticPages" do
     it { should have_selector('h1', text:'Contact Us') }
     it { should have_selector('title', text:full_title('Contact')) }
   end
-
+  
 end
