@@ -2,10 +2,7 @@ require 'spec_helper'
 
 describe "User pages" do
 
-  let(:user) { User.create(name: "Example User", 
-                            email: "user@example.com",
-                            password: "12345678", 
-                            password_confirmation: "12345678") }  
+  let(:user) { FactoryGirl.create(:user) }  
 
   subject { page }
 
@@ -32,18 +29,35 @@ describe "User pages" do
       it "should not create a user" do
         expect { click_button submit }.not_to change(User, :count)
       end
+
+      describe "after submission" do
+        before { click_button submit }
+
+        it { should have_selector('title', text: 'Sign up') }
+        it { should have_content('error') }
+      end
     end
 
     describe "with valid information" do
+      let(:new_user) { FactoryGirl.build(:user) }  
+
       before do
-        fill_in "Name",         with: "Example User"
-        fill_in "Email",        with: "user@example.com"
-        fill_in "Password",     with: "foobarfoo"
-        fill_in "Confirmation", with: "foobarfoo"
+        fill_in "Name",         with: new_user.name
+        fill_in "Email",        with: new_user.email
+        fill_in "Password",     with: new_user.password
+        fill_in "Confirmation", with: new_user.password_confirmation
       end
 
       it "should create a user" do
         expect { click_button submit }.to change(User, :count).by(1)
+      end
+
+      describe "after saving the user" do
+        before { click_button submit }
+        let(:found_user) { User.find_by_email(user.email) }
+
+        it { should have_selector('title', text: found_user.name) }
+        it { should have_selector('div.alert.alert-success', text: 'Welcome') }
       end
     end
   end

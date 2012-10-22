@@ -14,10 +14,8 @@ describe "StaticPages" do
       click_link 'About'
       page.should have_selector 'title', text: full_title('About Us')
       click_link 'Help'
-      p current_path
       #page.should # fill in
       click_link 'Contact'
-      p current_path
       #page.should # fill in
       click_link 'Home'
       click_link 'Sign up now!'
