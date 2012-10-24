@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.8'
 gem 'bootstrap-sass', '2.0.4'
 gem 'bcrypt-ruby', '3.0.1'
+gem 'jquery-rails', '2.0.2'
 
 group :development do
   gem 'annotate', '2.5.0'
@@ -34,9 +35,6 @@ group :assets do
 
   gem 'uglifier', '1.2.3'
 end
-
-gem 'jquery-rails', '2.0.2'
-
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
