@@ -6,23 +6,18 @@ describe "StaticPages" do
   describe "Home page" do
   	before { visit root_path }
 
+    # replace with "be_on_page"?
     it { should have_selector('h1', text:'Sample App') }
     it { should have_selector('title', text:full_title('')) }
 
-    it "should have the right links on the layout" do
-      
-      click_link 'About'
-      page.should have_selector 'title', text: full_title('About Us')
-      click_link 'Help'
-      #page.should # fill in
-      click_link 'Contact'
-      #page.should # fill in
-      click_link 'Home'
-      click_link 'Sign up now!'
-      #page.should # fill in
-      click_link 'sample app'
-      #page.should # fill in
-      pending 'find better solution'
+    describe "should have the right links" do      
+      it { should have_link('Home',         href: root_path) } 
+      it { should have_link('sample app',   href: root_path) } 
+      it { should have_link('About',        href: about_path) } 
+      it { should have_link('Help',         href: help_path) } 
+      it { should have_link('Contact',      href: contact_path) }  
+          
+      it { should have_link('Sign up now!', href: signup_path) } 
     end
   end
 

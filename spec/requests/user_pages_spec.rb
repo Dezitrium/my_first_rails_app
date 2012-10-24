@@ -1,29 +1,28 @@
 require 'spec_helper'
 
 describe "User pages" do
-
-  let(:user) { FactoryGirl.create(:user) }  
-
   subject { page }
+
+  let(:user) { FactoryGirl.build(:user) }    
 
   describe "signup page" do
     before { visit signup_path }
-
-    it { should have_selector('h1',    text: 'Sign up') }
-    it { should have_selector('title', text: full_title('Sign up')) }
+    it { should be_on_page full_title('Sign up'), 'Sign up' }
   end
 
   describe "profile page" do    
-    before { visit user_path(user) }
+    before do 
+      user.save 
+      visit user_path(user)
+    end
 
-    it { should have_selector('h1',    text: user.name) }
-    it { should have_selector('title', text: user.name) }
+    it { should be_on_page user.name, user.name }
   end
 
   describe "signup" do
-    before { visit signup_path }
-
     let(:submit) { "Create my account" }
+
+    before { visit signup_path }
 
     describe "with invalid information" do
       it "should not create a user" do
@@ -39,33 +38,29 @@ describe "User pages" do
     end
 
     describe "with valid information" do
-      let(:new_user) { FactoryGirl.build(:user) }  
-
-      before do
-        fill_in "Name",         with: new_user.name
-        fill_in "Email",        with: new_user.email
-        fill_in "Password",     with: new_user.password
-        fill_in "Confirmation", with: new_user.password_confirmation
-      end
+      
+      before { fill_signup_page user }
 
       it "should create a user" do
         expect { click_button submit }.to change(User, :count).by(1)
       end
 
       describe "after saving the user" do
-        before { click_button submit }
         let(:found_user) { User.find_by_email(user.email) }
 
+        before { click_button submit }
+        
         it { should have_selector('title', text: found_user.name) }
-        it { should have_selector('div.alert.alert-success', text: 'Welcome') }
+        it { should have_success_message 'Welcome' }
         it { should have_link 'Sign out' }
 
         describe "followed by sign out" do
           before { click_link 'Sign out' }         
           it { should have_link 'Sign in' }
-          it { should have_selector('div.alert.alert-success', text: 'Bye bye') }
+          it { should have_success_message 'Bye bye' }
         end
       end
     end
   end
+
 end
