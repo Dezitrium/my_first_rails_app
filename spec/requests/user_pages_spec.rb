@@ -11,7 +11,7 @@ describe "User pages" do
 
       before { visit signup_path }
 
-      it { should be_on_page full_title('Sign up'), 'Sign up' }
+      it { should be_on_page 'Sign up' }
 
       describe "with invalid information" do
         it "should not create a user" do
@@ -62,7 +62,7 @@ describe "User pages" do
       
     describe "show" do
       before { visit user_path(user) }
-      it { should be_on_page user.name, user.name }
+      it { should be_on_page user.name }
     end    
 
     describe "edit" do
@@ -91,6 +91,21 @@ describe "User pages" do
         it { should have_link('Sign out', href: signout_path) }
         specify { user.reload.name.should  == new_user.name }
         specify { user.reload.email.should == new_user.email }
+      end
+    end
+
+    describe "index" do
+      before do         
+        FactoryGirl.create_list(:user, 3)
+        visit users_path
+      end
+
+      it { should be_on_page 'Users' }
+
+      it "should show all Users" do
+        User.all.each do |user|
+          page.should have_selector 'li', text: user.name
+        end
       end
     end
   end

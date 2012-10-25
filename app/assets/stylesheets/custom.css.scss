@@ -141,6 +141,21 @@ aside {
   margin-right: 10px;
 }
 
+/* users index */
+
+.users {
+  list-style: none;
+  margin: 0;
+  li {
+    overflow: auto;
+    padding: 10px 0;
+    border-top: 3px solid $grayLighter;
+    &:last-child {
+      border-bottom: 3px solid $grayLighter;
+    }
+  }
+}
+
 /* forms */
 
 input, textarea, select, .uneditable-input {
@@ -174,4 +189,3 @@ input, textarea, select, .uneditable-input {
   margin-top: 45px;
   @include box_sizing;
 }
-

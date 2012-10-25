@@ -12,8 +12,9 @@
   end
 end
 
-RSpec::Matchers.define :be_on_page do |title, h1|
+RSpec::Matchers.define :be_on_page do |title, h1 = nil|
     match do |page|
+      h1 ||= title
       page.should have_selector('h1',    text: h1) 
       page.should have_selector('title', text: title)
     end

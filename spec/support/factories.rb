@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :user do
-    name "User"
+    sequence(:name) { |n| "User#{n}" } 
     
     email do 
       prefix = name.split.join('.').downcase

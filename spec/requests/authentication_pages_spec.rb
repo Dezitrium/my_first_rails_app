@@ -8,17 +8,19 @@ describe "Authentication" do
   describe "signin page" do
     before { visit signin_path }
     
-    it { should be_on_page full_title('Sign in'), 'Sign in' }
+    it { should be_on_page 'Sign in' }
 
     describe "with valid login data" do
         before { sign_in user }         
 
-        it { should have_selector('title', text: user.name) }
+        it { should have_selector 'title', text: user.name }
 
-        it { should have_no_link('Sign in', href: signin_path) } 
-        it { should have_link('Profile',  href: user_path(user)) } 
-        it { should have_link('Settings', href: edit_user_path(user)) } 
-        it { should have_link('Sign out', href: signout_path) } 
+        it { should have_no_link 'Sign in', href: signin_path } 
+
+        it { should have_link 'Users',     href: users_path } 
+        it { should have_link 'Profile',  href: user_path(user) } 
+        it { should have_link 'Settings', href: edit_user_path(user) } 
+        it { should have_link 'Sign out', href: signout_path } 
     end
 
     describe "with invalid login data" do
@@ -44,7 +46,7 @@ describe "Authentication" do
           before { visit edit_user_path(user) }
 
           it { should have_selector('title', text: 'Sign in') }
-          it { should have_notice_message 'Please sign in'}
+          it { should have_notice_message 'Please sign in' }
 
           describe "after signing in" do
             before { sign_in user }
@@ -58,6 +60,20 @@ describe "Authentication" do
           before { put user_path(user) }
 
           specify { response.should redirect_to(signin_path) }
+        end
+
+        describe "visiting the users index" do
+          before { visit users_path }
+
+          it { should have_selector('title', text: 'Sign in') }
+          it { should have_notice_message 'Please sign in' }
+
+          describe "after signing in" do
+            before { sign_in user }
+            it "should render the desired protected page" do
+              page.should have_selector('title', text: 'Users')
+            end
+          end
         end
       end
 
