@@ -1,4 +1,4 @@
-%w(success error).each do |type|
+%w(success error notice).each do |type|
   RSpec::Matchers.define "have_#{type}_message".to_sym do |message|
     match do |page|
       page.should have_selector("div.alert.alert-#{type}", text: message)
