@@ -23,5 +23,11 @@ FactoryGirl.define do
     trait :wrong_password do
       password "1234567890"
     end
+
+    factory :admin do
+      admin true
+    end
+
   end
+
 end

@@ -70,7 +70,7 @@ describe "Authentication" do
 
           describe "after signing in" do
             before { sign_in user }
-            it "should render the desired protected page" do
+            it "should render the desired protected page (friendly forwarding)" do
               page.should have_selector('title', text: 'Users')
             end
           end
@@ -96,6 +96,12 @@ describe "Authentication" do
           before { put user_path(other_user) }
 
           specify { response.should redirect_to(root_path) }
+        end
+
+        describe "submitting a DELETE request to the Users#destroy action" do
+          before { delete user_path(other_user) }
+
+          specify { response.should redirect_to(root_path) }        
         end
       end
     end

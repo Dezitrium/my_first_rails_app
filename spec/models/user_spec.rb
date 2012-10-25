@@ -14,10 +14,11 @@
 require 'spec_helper'
 
 describe User do
-  let!(:user) { FactoryGirl.build(:user) }   
+  let(:user) { FactoryGirl.build(:user) }   
 
   subject { user }
 
+  it { should respond_to :admin }
   it { should respond_to :authenticate }
 
   it { should respond_to :name }
@@ -30,6 +31,15 @@ describe User do
   describe 'remember token' do
     before { user.save }
     its(:remember_token) { should_not be_blank }
+  end
+
+  describe 'admin status' do
+    before do 
+      user.save!
+      user.toggle!(:admin)
+    end
+    
+    it { should be_admin }
   end
 
   describe 'Validation' do
@@ -130,6 +140,7 @@ describe User do
         specify { user_with_invalid_password.should be_false }
       end
     end
-
   end
+
+
 end

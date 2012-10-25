@@ -19,3 +19,9 @@ RSpec::Matchers.define :be_on_page do |title, h1 = nil|
       page.should have_selector('title', text: title)
     end
 end
+
+RSpec::Matchers.define :be_pagniated do
+    match do |page|
+      page.should have_selector 'div.pagination'
+    end
+end

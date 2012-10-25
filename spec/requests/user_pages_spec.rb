@@ -95,19 +95,48 @@ describe "User pages" do
     end
 
     describe "index" do
-      before do         
-        FactoryGirl.create_list(:user, 3)
-        visit users_path
-      end
+      before { visit users_path }
 
       it { should be_on_page 'Users' }
 
-      it "should show all Users" do
-        User.all.each do |user|
-          page.should have_selector 'li', text: user.name
+      describe "pagination" do
+        before(:all) do 
+          User.delete_all
+          FactoryGirl.create_list(:user, 15)
+        end
+        after(:all)  { User.delete_all }
+
+        it { should be_pagniated }
+        it "should list each user" do
+          User.paginate(page: 1, per_page:15).each do |user|
+            page.should have_selector('li', text: user.name)
+          end
+        end
+      end  
+
+      describe "delete links" do
+
+        it { should have_no_link('delete') }
+
+        describe "as an admin user" do
+          let(:admin) { FactoryGirl.create(:admin) }
+          before do
+            visit signin_path
+            sign_in admin
+            visit users_path
+          end
+
+          it { should have_link('delete', href: user_path(User.first)) }
+
+          it "should be able to delete another user" do
+            expect { click_link('delete') }.to change(User, :count).by(-1)
+          end
+
+          it { should_not have_link('delete', href: user_path(admin)) }
         end
       end
-    end
-  end
 
+    end 
+
+  end
 end
