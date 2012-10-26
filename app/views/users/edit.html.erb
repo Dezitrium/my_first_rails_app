@@ -5,7 +5,8 @@
     <section>
       <h1>        
         <%= gravatar_for @user, size:48 %>
-        <%= link_to 'Change picture', 'http://www.gravatar.com/emails', :target => '_blank'  %>
+        <%= link_to 'Change picture', 'http://www.gravatar.com/emails', 
+            :target => '_blank'  %>
       </h1>
     </section>
   </aside>
@@ -14,20 +15,7 @@
 <div class="row">
   <div class="span6 offset3">
     <%= form_for(@user) do |f| %>
-   	  <%= render 'shared/error_messages', target:@user %>
-
-      <%= f.label :name %>
-      <%= f.text_field :name %>
-
-      <%= f.label :email %>
-      <%= f.text_field :email %>
-
-      <%= f.label :password %>
-      <%= f.password_field :password %>
-
-      <%= f.label :password_confirmation, "Confirmation" %>
-      <%= f.password_field :password_confirmation %>
-
+   	  <%= render 'user_form', target: @user, form: f %>
       <center>
         <%= f.submit "Update", class: "btn btn-large btn-primary" %>
       </center>
