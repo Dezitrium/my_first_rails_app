@@ -25,6 +25,7 @@ group :test do
   gem 'rb-inotify',  '0.8.8'
   gem 'libnotify',   '0.5.9'  
   gem 'factory_girl_rails', '4.1.0'
+  gem 'shoulda-matchers'
 end
 
 # Gems used only for assets and not required

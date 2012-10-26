@@ -14,33 +14,40 @@
 require 'spec_helper'
 
 describe User do
+
   let(:user) { FactoryGirl.build(:user) }   
 
   subject { user }
-
-  it { should respond_to :admin }
+ 
   it { should respond_to :authenticate }
 
-  it { should respond_to :name }
-  it { should respond_to :email }
-  it { should respond_to :remember_token }
-  it { should respond_to :password_digest }
-  it { should respond_to :password }
-  it { should respond_to :password_confirmation }
+  describe "Attributes" do
+    it { should respond_to :name }
+    it { should respond_to :email }
+    it { should respond_to :admin }
+    it { should respond_to :remember_token }
+    it { should respond_to :password_digest }
+    it { should respond_to :password }
+    it { should respond_to :password_confirmation }
 
-  describe 'remember token' do
-    before { user.save }
-    its(:remember_token) { should_not be_blank }
-  end
+    describe "after save" do
+      before { user.save }
+      
+      its(:admin) { should be_false }   
+      its(:remember_token) { should_not be_blank }
 
-  describe 'admin status' do
-    before do 
-      user.save!
-      user.toggle!(:admin)
-    end
+      describe 'admin status' do
+        before { user.toggle!(:admin) }
     
-    it { should be_admin }
-  end
+        it { should be_admin }
+      end
+    end    
+
+    describe "Non accessible attributes" do
+      it { should_not allow_mass_assignment_of :admin }
+      it { should_not allow_mass_assignment_of :remember_token }
+    end
+  end  
 
   describe 'Validation' do
     it { should be_valid }
@@ -141,6 +148,5 @@ describe User do
       end
     end
   end
-
 
 end

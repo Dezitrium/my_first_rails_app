@@ -13,15 +13,24 @@
 end
 
 RSpec::Matchers.define :be_on_page do |title, h1 = nil|
-    match do |page|
-      h1 ||= title
-      page.should have_selector('h1',    text: h1) 
-      page.should have_selector('title', text: title)
-    end
+  match do |page|
+    h1 ||= title
+    page.should have_selector('h1',    text: h1) 
+    page.should have_selector('title', text: title)
+  end
+end
+
+RSpec::Matchers.define :have_no_links_for_users do
+  match do |page|
+    page.should have_no_link 'Users',    href: users_path 
+    page.should have_no_link 'Profile'
+    page.should have_no_link 'Settings'
+    page.should have_no_link 'Sign out', href: signout_path
+  end
 end
 
 RSpec::Matchers.define :be_pagniated do
-    match do |page|
-      page.should have_selector 'div.pagination'
-    end
+  match do |page|
+    page.should have_selector 'div.pagination'
+  end
 end

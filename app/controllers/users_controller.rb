@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :signed_in_users, only: [:edit, :update, :index, :destroy]
+  before_filter :not_signed_in_users, only: [:edit, :update, :index, :destroy]
+  before_filter :signed_in_users, only: [:new, :create]
   before_filter :correct_user, only: [:edit, :update]
   before_filter :admin_user, only: [:destroy]
 
@@ -49,9 +50,15 @@ class UsersController < ApplicationController
 
   private 
 
-    def signed_in_users
+    def not_signed_in_users
+      return if signed_in?
       store_location
-      redirect_to signin_url, notice:'Please sign in' unless signed_in?
+      redirect_to signin_url, notice:'Please sign in'       
+    end
+
+    def signed_in_users
+      return unless signed_in?
+      redirect_to root_url, notice:"Can't create more accounts"
     end
 
     def correct_user
@@ -60,7 +67,13 @@ class UsersController < ApplicationController
     end
 
     def admin_user
-      redirect_to root_url, notice:"Can't delete other users" unless current_user.admin?
+      if current_user.admin?
+        user = User.find(request.path_parameters[:id])
+        message = "Can't delete other admins" if user.admin?        
+      else
+        message = "Can't delete other users"
+      end
+      redirect_to root_url, notice: message if message
     end
 
 end

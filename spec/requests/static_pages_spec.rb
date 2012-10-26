@@ -15,9 +15,10 @@ describe "StaticPages" do
       it { should have_link('sample app',   href: root_path) } 
       it { should have_link('About',        href: about_path) } 
       it { should have_link('Help',         href: help_path) } 
-      it { should have_link('Contact',      href: contact_path) }  
-          
+      it { should have_link('Contact',      href: contact_path) }            
       it { should have_link('Sign up now!', href: signup_path) } 
+      
+      it { should have_no_links_for_users }
     end
   end
 

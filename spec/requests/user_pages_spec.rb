@@ -3,15 +3,16 @@ require 'spec_helper'
 describe "User pages" do
   subject { page }
 
-  let(:user) { FactoryGirl.build(:user) }    
-
   describe "for non-signed in users" do
-    describe "signup" do
+    let(:user) { FactoryGirl.build(:user) }
+
+    describe "signup page" do
       let(:submit) { 'Create my account' }
 
       before { visit signup_path }
 
       it { should be_on_page 'Sign up' }
+      it { should have_no_links_for_users }
 
       describe "with invalid information" do
         it "should not create a user" do
@@ -54,18 +55,19 @@ describe "User pages" do
   end
 
   describe "for signed in users" do
-    before do 
-      user.save
+    let(:user) { FactoryGirl.create(:user) }  
+
+    before do       
       visit signin_path
       sign_in user
     end
       
-    describe "show" do
+    describe "show page" do
       before { visit user_path(user) }
       it { should be_on_page user.name }
     end    
 
-    describe "edit" do
+    describe "edit page" do
       let(:submit) { 'Update' }
 
       before { visit edit_user_path(user) }
@@ -94,17 +96,18 @@ describe "User pages" do
       end
     end
 
-    describe "index" do
+    describe "index page" do
       before { visit users_path }
 
       it { should be_on_page 'Users' }
+      it { should have_no_link('delete') }      
 
       describe "pagination" do
         before(:all) do 
           User.delete_all
           FactoryGirl.create_list(:user, 15)
         end
-        after(:all)  { User.delete_all }
+        after(:all) { User.delete_all }
 
         it { should be_pagniated }
         it "should list each user" do
@@ -113,30 +116,28 @@ describe "User pages" do
           end
         end
       end  
+    end
+  end
 
-      describe "delete links" do
+  describe "for admin users" do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:admin) { FactoryGirl.create(:admin) }
 
-        it { should have_no_link('delete') }
+    before do
+      user.save!
+      visit signin_path
+      sign_in admin      
+    end
 
-        describe "as an admin user" do
-          let(:admin) { FactoryGirl.create(:admin) }
-          before do
-            visit signin_path
-            sign_in admin
-            visit users_path
-          end
+    describe "index page" do
+      before { visit users_path }
 
-          it { should have_link('delete', href: user_path(User.first)) }
+      it { should have_link('delete', href: user_path(user)) }
+      it { should have_no_link('delete', href: user_path(admin)) }
 
-          it "should be able to delete another user" do
-            expect { click_link('delete') }.to change(User, :count).by(-1)
-          end
-
-          it { should_not have_link('delete', href: user_path(admin)) }
-        end
-      end
-
-    end 
-
+      it "should be able to delete another user" do
+        expect { click_link('delete') }.to change(User, :count).by(-1)
+      end    
+    end
   end
 end
