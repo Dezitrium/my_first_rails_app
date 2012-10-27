@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "Authentication" do
   subject { page }
 
-  let(:user) { FactoryGirl.create(:user) }  
+  let!(:user) { FactoryGirl.create(:user) }  
 
   describe "for signin page" do
     before { visit signin_path }
@@ -143,12 +143,10 @@ describe "Authentication" do
     end
 
     describe "for admins" do
-      let(:admin) { FactoryGirl.create(:admin) }
-      let(:other_admin) { FactoryGirl.create(:admin) }
+      let!(:admin) { FactoryGirl.create(:admin) }
+      let!(:other_admin) { FactoryGirl.create(:admin) }
 
       before do 
-        user.save!
-        other_admin.save!
         visit signin_path
         sign_in admin 
       end
