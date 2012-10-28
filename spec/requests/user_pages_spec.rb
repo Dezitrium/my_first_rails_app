@@ -63,6 +63,20 @@ describe 'User pages' do
       visit signin_path
       sign_in user
     end
+
+    describe 'users home page' do
+      before { visit root_path }      
+
+      it "should render the user's feed" do
+        user.feed.each do |item| 
+          page.should have_selector "li##{item.id}", text: item.content
+        end
+      end
+
+      describe 'pagination' do
+                        
+      end
+    end 
       
     describe 'profile page' do
       before { visit user_path(user) }      
@@ -73,6 +87,7 @@ describe 'User pages' do
         it { should have_content m1.content }
         it { should have_content m2.content }
         it { should have_content 'Microposts (' + user.microposts.count.to_s + ')' }
+
       end
     end    
 

@@ -4,14 +4,13 @@
   <aside class="span4">
     <section>
       <h1>        
-        <%= gravatar_for @user, size:48 %>
+        <%= gravatar_for @user %>
         <%= link_to 'Change picture', 'http://www.gravatar.com/emails', 
             :target => '_blank'  %>
       </h1>
     </section>
   </aside>
 </div>
-
 <div class="row">
   <div class="span6 offset3">
     <%= form_for(@user) do |f| %>

@@ -8,7 +8,6 @@ module SessionsHelper
     @current_user = user
   end
 
-
   def sign_in(user)
     # expires: 20.years.from_now.utc
     cookies.permanent[:remember_token] = user.remember_token 
@@ -41,6 +40,13 @@ module SessionsHelper
 
   def delete_location
     session.delete(:redirect_back_to)
+  end
+
+  # filter methods
+  def not_signed_in_users
+    return if signed_in?
+    store_location
+    redirect_to signin_url, notice:'Please sign in'       
   end
 
 end

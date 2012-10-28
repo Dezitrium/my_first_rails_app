@@ -50,8 +50,13 @@ describe User do
 
   describe 'Associations' do
     describe 'for microposts' do
-      let!(:older_micropost) { FactoryGirl.create(:micropost, user: user, created_at: 2.hours.ago) }
-      let!(:newer_micropost) { FactoryGirl.create(:micropost, user: user, created_at: 1.hour.ago) }
+      let!(:older_micropost) do 
+        FactoryGirl.create(:micropost, user: user, created_at: 2.hours.ago)
+      end
+  
+      let!(:newer_micropost) do 
+        FactoryGirl.create(:micropost, user: user, created_at: 1.hour.ago)
+      end
 
       it { should respond_to :microposts }    
       specify { user.microposts.should == [newer_micropost, older_micropost] }
@@ -64,10 +69,21 @@ describe User do
           Micropost.find_by_id(micropost.id).should be_nil
         end
       end
+
+      describe "status" do
+        let(:unfollowed_post) do
+          FactoryGirl.create(:micropost, user: FactoryGirl.create(:user))
+        end
+
+        its(:feed) { should include(newer_micropost) }
+        its(:feed) { should include(older_micropost) }
+        its(:feed) { should_not include(unfollowed_post) }
+      end
     end
   end
 
   describe 'Methods' do
+    it { should respond_to :feed }
     it { should respond_to :authenticate }
   end
 

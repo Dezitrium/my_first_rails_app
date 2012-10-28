@@ -49,13 +49,7 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
 
-  private 
-
-    def not_signed_in_users
-      return if signed_in?
-      store_location
-      redirect_to signin_url, notice:'Please sign in'       
-    end
+  private     
 
     def signed_in_users
       return unless signed_in?

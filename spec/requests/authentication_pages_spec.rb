@@ -3,43 +3,43 @@ require 'spec_helper'
 describe "Authentication" do
   subject { page }
 
-  let!(:user) { FactoryGirl.create(:user) }  
-
-  describe "for signin page" do
-    before { visit signin_path }
+  describe "in the Users controller" do
+    let!(:user) { FactoryGirl.create(:user) } 
     
-    it { should be_on_page 'Sign in' }
+    describe "for signin page" do
+      before { visit signin_path }
 
-    describe "with valid login data" do
-      before { sign_in user }         
+      it { should be_on_page 'Sign in' }
 
-      it { should have_selector 'title', text: user.name }
+      describe "with valid login data" do
+        before { sign_in user }         
 
-      it { should have_no_link 'Sign in', href: signin_path } 
+        it { should have_selector 'title', text: user.name }
 
-      it { should have_link 'Users',    href: users_path } 
-      it { should have_link 'Profile',  href: user_path(user) } 
-      it { should have_link 'Settings', href: edit_user_path(user) } 
-      it { should have_link 'Sign out', href: signout_path } 
-    end
+        it { should have_no_link 'Sign in', href: signin_path } 
 
-    describe "with invalid login data" do
-      let(:invalid_user) { FactoryGirl.build(:user, :wrong_password) } 
+        it { should have_link 'Users',    href: users_path } 
+        it { should have_link 'Profile',  href: user_path(user) } 
+        it { should have_link 'Settings', href: edit_user_path(user) } 
+        it { should have_link 'Sign out', href: signout_path } 
+      end
 
-      before { sign_in invalid_user }
+      describe "with invalid login data" do
+        let(:invalid_user) { FactoryGirl.build(:user, :wrong_password) } 
 
-      it { should have_selector('title', text: 'Sign in') }
-      it { should have_error_message 'Invalid' }
+        before { sign_in invalid_user }
 
-      describe 'after visiting another page' do 
-        before { click_link 'Home' }
+        it { should have_selector('title', text: 'Sign in') }
+        it { should have_error_message 'Invalid' }
 
-        it { should have_no_error_message 'Invalid' }
+        describe 'after visiting another page' do 
+          before { click_link 'Home' }
+
+          it { should have_no_error_message 'Invalid' }
+        end
       end
     end
-  end
 
-  describe "in the Users controller" do
     describe "for non-signed-in users" do
       describe "visiting the edit page" do
         before { visit edit_user_path(user) }
@@ -160,6 +160,44 @@ describe "Authentication" do
           expect { delete user_path(other_admin) }.not_to change(User, :count)
         end 
       end
+    end
+  end
+
+  describe "in the Microposts controller" do
+    let!(:micropost) { FactoryGirl.create(:micropost) } 
+
+    describe "for non-signed-in users" do
+      describe "submitting a POST request to the Microposts#create action"  do
+        before { post microposts_path }
+
+        specify { response.should redirect_to(signin_path) }
+      end
+
+      describe "submitting a DELETE request to the Microposts#destroy action"  do
+        before { delete micropost_path(micropost) }
+
+        specify { response.should redirect_to(signin_path) }
+      end
+    end
+
+    describe "for signed in users" do
+      before do 
+        visit signin_path
+        sign_in user 
+      end
+
+      let(:other_user) { FactoryGirl.create(:user, name:'User 2') }
+    end
+
+    describe "for admins" do
+      let!(:admin) { FactoryGirl.create(:admin) }
+      let!(:other_admin) { FactoryGirl.create(:admin) }
+
+      before do 
+        visit signin_path
+        sign_in admin 
+      end
+
     end
   end
 

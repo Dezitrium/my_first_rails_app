@@ -1,5 +1,10 @@
 class StaticPagesController < ApplicationController
+  include MicropostsHelper
+
   def home
+    return unless signed_in?
+    @micropost = current_user.microposts.build
+    @feed_items = feed_items
   end
 
   def help
@@ -10,4 +15,5 @@ class StaticPagesController < ApplicationController
 
   def contact
   end
+
 end
