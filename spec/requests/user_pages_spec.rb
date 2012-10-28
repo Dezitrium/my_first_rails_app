@@ -146,6 +146,7 @@ describe 'User pages' do
   describe 'for admin users' do
     let!(:user) { FactoryGirl.create(:user) }
     let(:admin) { FactoryGirl.create(:admin) }
+    let!(:other_admin) { FactoryGirl.create(:admin) }
 
     before do
       visit signin_path
@@ -155,12 +156,16 @@ describe 'User pages' do
     describe 'index page' do
       before { visit users_path }
 
-      it { should have_link('delete', href: user_path(user)) }
-      it { should have_no_link('delete', href: user_path(admin)) }
+      let(:delete) { 'delete' }
+
+      it { should have_link delete, href: user_path(user) }
+
+      it { should have_no_link delete, href: user_path(admin) }
+      it { should have_no_link delete, href: user_path(other_admin) }
 
       it 'should be able to delete another user' do
-        expect { click_link('delete') }.to change(User, :count).by(-1)
-      end    
+        expect { click_link delete }.to change(User, :count).by(-1)
+      end 
     end
   end
 end

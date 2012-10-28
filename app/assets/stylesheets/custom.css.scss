@@ -190,6 +190,10 @@ input, textarea, select, .uneditable-input {
     padding: 10px 0;
     border-top: 1px solid #e8e8e8;
   }
+
+  a {
+    margin-right: 10px;
+  }
 }
 .content {
   display: block;
@@ -203,7 +207,7 @@ input, textarea, select, .uneditable-input {
 }
 aside {
   textarea {
-    height: 100px;
+    height: 50px;
     margin-bottom: 5px;
   }
 }
