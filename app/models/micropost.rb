@@ -16,6 +16,8 @@ class Micropost < ActiveRecord::Base
 
   default_scope order: 'microposts.created_at DESC'
 
+  MAXIMUM_MICROPOST_LENGTH = 160
+
   validates :user_id, presence: true
-  validates :content, presence: true, length: { maximum: 160 }
+  validates :content, presence: true, length: { maximum: MAXIMUM_MICROPOST_LENGTH }
 end
