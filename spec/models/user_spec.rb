@@ -80,10 +80,70 @@ describe User do
         its(:feed) { should_not include(unfollowed_post) }
       end
     end
+
+    describe 'for relationships' do
+      it { should respond_to :relationships }      
+      it { should respond_to :reverse_relationships }      
+
+      it { should respond_to :followed_users }
+      it { should respond_to :followers }
+
+      describe 'destroying' do
+        let(:follower_list) { FactoryGirl.create_list(:user, 3) }
+        let(:followed_list) { FactoryGirl.create_list(:user, 3) }
+
+        before(:all) do
+          followed_list.each do |followed|
+            user.relationships.create(followed_id: followed.id)    
+          end
+
+          follower_list.each do |follower|
+            follower.relationships.create(followed_id: user.id)
+          end
+        end
+
+        it "should destroy associated relationships" do
+          relations = user.relationships
+          reverse_relations = user.reverse_relationships
+          relationships = (relations + reverse_relations).dup
+          user.destroy
+          relationships.should_not be_empty
+          relationships.each do |relation|
+            Relationship.find_by_id(relation.id).should be_nil
+          end
+        end        
+      end      
+
+      describe 'following' do
+        let!(:followed) { FactoryGirl.create(:user) } 
+
+        before do 
+          user.save!
+          user.follow! followed 
+        end
+
+        it { should be_following followed }        
+        its(:followed_users) { should include(followed) }
+
+        specify { followed.should be_followed_by user }
+        specify { followed.followers.should include(user) }
+
+        describe 'and unfollowing' do 
+          before { user.unfollow! followed }
+
+          it { should_not be_following followed }
+          its(:followed_users) { should_not include(followed) }
+        end
+      end      
+    end
   end
 
   describe 'Methods' do
     it { should respond_to :feed }
+    it { should respond_to :follow! }
+    it { should respond_to :unfollow! }
+    it { should respond_to :following? }
+    it { should respond_to :followed_by? }
     it { should respond_to :authenticate }
   end
 

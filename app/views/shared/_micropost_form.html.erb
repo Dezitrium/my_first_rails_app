@@ -2,7 +2,7 @@
   <%= render 'shared/error_messages', target: f.object %>
   <div class="field">
   	<%= f.text_area :content, placeholder: "Compose new micropost..." , rows: 5, :maxlength => Micropost::MAXIMUM_MICROPOST_LENGTH %>    
-    <span>Characters left <span id="char-count">160</span> </span>
+    <span><span id="char-count">160</span> Characters left</span>
   </div>
   <%= f.submit "Post", class: "btn btn-large btn-primary" %>
 <% end %>

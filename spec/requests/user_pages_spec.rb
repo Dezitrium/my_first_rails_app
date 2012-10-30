@@ -55,7 +55,8 @@ describe 'User pages' do
   end
 
   describe 'for signed in users' do
-    let(:user) { FactoryGirl.create(:user) }  
+    let(:user) { FactoryGirl.create(:user) }
+    let(:follower) { FactoryGirl.create(:user) }  
     let!(:m1) { FactoryGirl.create(:micropost, user: user, content: "Foo") }
     let!(:m2) { FactoryGirl.create(:micropost, user: user, content: "Bar") }
 
@@ -67,14 +68,63 @@ describe 'User pages' do
     describe 'users home page' do
       before { visit root_path }      
 
-      it "should render the user's feed" do
-        user.feed.each do |item| 
-          page.should have_selector "li##{item.id}", text: item.content
+      describe 'feed' do
+        it "should render the user's feed" do
+          user.feed.each do |item| 
+            page.should have_selector "li##{item.id}", text: item.content
+          end
+        end
+
+        describe 'pagination' do
+          pending 'write paginations tests'                       
         end
       end
 
-      describe 'pagination' do
-                        
+      describe 'following/followers counts' do
+        it { should have_link("0 following", href: following_user_path(user)) }
+        it { should have_link("0 followers", href: followers_user_path(user)) }
+
+        describe 'with one each' do
+          let(:other_user) { FactoryGirl.create(:user) }
+
+          before do
+            user.follow! other_user
+            other_user.follow! user
+            visit root_path
+          end
+
+          it { should have_link("1 following", href: following_user_path(user)) }
+          it { should have_link("1 follower", href: followers_user_path(user)) }
+
+          describe 'at following page' do
+            before { visit following_user_path(user) }
+
+            it { should be_on_page 'Following', user.name }
+            it { should have_selector 'h3', text: 'Following' }
+            it { should have_link(other_user.name, href: user_path(other_user)) }
+          end
+
+          describe 'at followers page' do
+            before { visit followers_user_path(other_user) }
+
+            it { should be_on_page 'Followers', other_user.name }
+            it { should have_selector 'h3', text: 'Followers' }
+            it { should have_link(user.name, href: user_path(user)) }
+          end
+        end
+
+        describe 'with more than one for each' do
+          let(:other_users) { FactoryGirl.create_list(:user, 5) }
+
+          before do
+            other_users.each { |followed| user.follow! followed }
+            other_users.each { |follower| follower.follow! user }
+            visit root_path
+          end
+
+          it { should have_link("5 following", href: following_user_path(user)) }
+          it { should have_link("5 followers", href: followers_user_path(user)) }
+        end
       end
     end 
       
@@ -87,7 +137,6 @@ describe 'User pages' do
         it { should have_content m1.content }
         it { should have_content m2.content }
         it { should have_content 'Microposts (' + user.microposts.count.to_s + ')' }
-
       end
     end    
 

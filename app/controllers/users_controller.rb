@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :not_signed_in_users, only: [:edit, :update, :index, :destroy]
+  before_filter :not_signed_in_users, only: [:edit, :update, :index, :destroy, :following, :followers]
   before_filter :signed_in_users, only: [:new, :create]
   before_filter :correct_user, only: [:edit, :update]
   before_filter :admin_user, only: [:destroy]
@@ -36,7 +36,11 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @microposts = @user.microposts.paginate(page: params[:page], per_page: 10)
+    @users = []
+    # @paginated_users = paginate_users(@users) # TODO: decide to use pagination
+    @microposts = paginate_microposts(@user)
+
+    @title = @user.name
   end
 
   def index
@@ -47,6 +51,30 @@ class UsersController < ApplicationController
     User.find(params[:id]).destroy
     flash[:success] = "User destroyed."
     redirect_to users_url
+  end
+
+  def following
+    @user = User.find(params[:id])
+    @users = @user.followed_users
+    #@paginated_users = paginate_users(@users) # TODO: decide to use pagination
+    @microposts = paginate_microposts(@user)
+
+    @h3_follows = 'Following'
+    @title = "#{@user.name} - #{@h3_follows}"
+
+    render 'show'
+  end
+
+  def followers
+    @user = User.find(params[:id])
+    @users = @user.followers
+    #@paginated_users = paginate_users(@users) # TODO: decide to use pagination
+    @microposts = paginate_microposts(@user)
+
+    @h3_follows = 'Followers'
+    @title = "#{@user.name} - #{@h3_follows}"
+
+    render 'show'
   end
 
   private     
@@ -70,5 +98,14 @@ class UsersController < ApplicationController
       end
       redirect_to root_url, notice: message if message
     end
+
+
+    def paginate_microposts(user)
+      user ? user.microposts.paginate(page: params[:microposts_page], per_page: 10) : []
+    end
+
+    # def paginate_users(users)
+    #   users && users.any? ? users.paginate(page: params[:follows_page], per_page: 5) : []
+    # end
 
 end

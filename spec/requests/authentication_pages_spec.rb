@@ -66,6 +66,18 @@ describe "Authentication" do
         end
       end
 
+      describe 'visiting the followers page' do        
+        before { get followers_user_path(user) }
+
+        specify { response.should redirect_to(signin_path) }
+      end
+
+      describe 'visiting the following page' do
+        before { get following_user_path(user) }
+
+        specify { response.should redirect_to(signin_path) }
+      end
+
       describe "submitting to the update action" do
         before { put user_path(user) }
 
