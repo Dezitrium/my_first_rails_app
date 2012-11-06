@@ -1,0 +1,6 @@
+<a href="<%= followers_user_path(@user) %>">
+    <strong id="followers-count" class="stat">
+      <%= @user.followers.count %>
+    </strong>
+    <%= "follower".pluralize(@user.followers.count) %>
+</a>

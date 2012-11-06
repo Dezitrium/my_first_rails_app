@@ -138,6 +138,54 @@ describe 'User pages' do
         it { should have_content m2.content }
         it { should have_content 'Microposts (' + user.microposts.count.to_s + ')' }
       end
+
+      describe 'follow/infollow buttons' do
+        let(:other_user) { FactoryGirl.create(:user) }        
+
+        before { visit user_path(other_user) }
+
+        let(:follow) { 'Follow' }
+        let(:unfollow) { 'Unfollow' }
+
+        describe 'following' do
+          it 'should increment followers count' do
+            expect { click_button follow }.to change(other_user.followers, :count).by(1)
+          end
+
+          it 'should increment following count' do
+            expect { click_button follow }.to change(user.followed_users, :count).by(1)
+          end
+
+          describe "toggle button" do
+            before { click_button follow }
+
+            it { should have_no_button follow }
+            it { should have_button unfollow }
+          end
+        end
+
+        describe 'unfollowing' do
+          before do 
+            user.follow! other_user
+            visit user_path(other_user)
+          end
+
+          it 'should decrease followers count' do
+            expect { click_button unfollow }.to change(other_user.followers, :count).by(-1)
+          end
+
+          it 'should decrease following count' do
+            expect { click_button unfollow }.to change(user.followed_users, :count).by(-1)
+          end
+
+          describe "toggle button" do
+            before { click_button unfollow }
+
+            it { should have_no_button unfollow }
+            it { should have_button follow }
+          end
+        end
+      end
     end    
 
     describe 'edit page' do

@@ -19,29 +19,30 @@
       <% end %>
     </section>
   </aside>
-  <div class="span8">    
-    <section>
+  <div class="span8">
+    <%= render 'follow_form' if signed_in? %>    
     <% if @users.any? %>
-      <h3><%= @h3_follows %></h3>
-      <div class="users-small">
-        <ul class="users">          
-          <% @users.each do |user| %>
-            <li><%= gravatar_for(user, size: 24) %><%= link_to user.name, user %></li>
-          <% end %>
-        </ul>
-      </div>        
+      <section>    
+        <h3><%= @h3_follows %></h3>
+        <div class="users-small">
+          <ul class="users">          
+            <% @users.each do |user| %>
+              <li><%= gravatar_for(user, size: 24) %><%= link_to user.name, user %></li>
+            <% end %>
+          </ul>
+        </div>    
+      </section>
     <% end %>
-    </section>
-    <section>
     <% if @user.microposts.any? %>
-      <h3>Microposts (<%= @user.microposts.count %>)</h3>
-      <ol class="microposts">
-        <%= render @microposts %>
-      </ol>
-      <center>
-      <%= will_paginate @microposts, :param_name => 'microposts_page' %>
-      </center>
+      <section>      
+        <h3>Microposts (<%= @user.microposts.count %>)</h3>
+        <ol class="microposts">
+          <%= render @microposts %>
+        </ol>
+        <center>
+        <%= will_paginate @microposts, :param_name => 'microposts_page' %>
+        </center>      
+      </section>
     <% end %>
-    </section>
   </div>
 </div>

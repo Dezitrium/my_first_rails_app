@@ -78,6 +78,23 @@ describe User do
         its(:feed) { should include(newer_micropost) }
         its(:feed) { should include(older_micropost) }
         its(:feed) { should_not include(unfollowed_post) }
+
+        describe 'posts by followed users' do 
+          let(:followed_user) { FactoryGirl.create(:user) }
+
+          before do
+            user.follow! followed_user
+            3.times do |i|
+              followed_user.microposts.create!(content: "Blablub #{i}")
+            end
+          end
+          
+          its(:feed) do
+            followed_user.microposts.each do |micropost|
+              should include(micropost)
+            end
+          end
+        end
       end
     end
 
@@ -102,7 +119,7 @@ describe User do
           end
         end
 
-        it "should destroy associated relationships" do
+        it 'should destroy associated relationships' do
           relations = user.relationships
           reverse_relations = user.reverse_relationships
           relationships = (relations + reverse_relations).dup

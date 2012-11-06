@@ -22,6 +22,10 @@ describe Micropost do
     it { should respond_to :content }
   end
 
+  describe 'Class Methods' do
+    specify { Micropost.should respond_to :from_users_followed_by }
+  end
+
   describe 'Associations' do
     it { should respond_to :user }  
     its(:user) { should == user }

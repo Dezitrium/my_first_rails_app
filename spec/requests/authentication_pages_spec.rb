@@ -213,4 +213,20 @@ describe "Authentication" do
     end
   end
 
+  describe 'in the Relationships controller' do
+    describe "for non-signed-in users" do
+      describe "submitting a POST request to the Relationships#create action"  do
+        before { post relationships_path }
+        
+        specify { response.should redirect_to(signin_path) }
+      end
+
+      describe "submitting a POST request to the Relationships#destroy action"  do
+        before { delete relationship_path(1) }
+        
+        specify { response.should redirect_to(signin_path) }
+      end
+    end
+  end
+
 end
