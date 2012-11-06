@@ -1,0 +1,15 @@
+var maxLen = <%= Micropost::MAXIMUM_MICROPOST_LENGTH %>;
+
+$(function() { 
+	$('#microposts_char-counter').html("<span id='char-count'><%= Micropost::MAXIMUM_MICROPOST_LENGTH %></span> Characters left");
+	setCharCount($('#micropost_content')); 
+});
+
+$('#micropost_content').live('keyup keydown', function(e) { 
+	setCharCount($(this)); 
+});
+
+function setCharCount(object) {	
+	var left = maxLen - object.val().length;  
+	$('#char-count').html(left);
+}

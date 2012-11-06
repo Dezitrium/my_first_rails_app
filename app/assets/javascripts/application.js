@@ -22,18 +22,3 @@ $(function() {
 	  return false;
 	})
 })
-
-var maxLen = 160; //Micropost::MAXIMUM_MICROPOST_LENGTH;
-
-$(function() { 
-	setCharCount($('#micropost_content')); 
-});
-
-$('#micropost_content').live('keyup keydown', function(e) { 
-	setCharCount($(this)); 
-});
-
-function setCharCount(object) {	
-	var left = maxLen - object.val().length;  
-	$('#char-count').html(left);
-}
