@@ -6,12 +6,15 @@ gem 'jquery-rails',   '~> 2.1'
 gem 'will_paginate',  '3.0.3'
 gem 'bootstrap-sass', '2.0.4'
 gem 'bootstrap-will_paginate', '0.0.6'
+gem 'date_validator'
 
 group :development do
   gem 'annotate', '2.5.0'
 end
 
 group :development, :test do
+  gem 'pry-rails',   '0.2.1'
+  gem 'pry-debugger','0.2.0'
   gem 'sqlite3',     '1.3.5'
   gem 'rspec-rails', '2.11.0'
   gem 'guard-rspec', '1.2.1'
