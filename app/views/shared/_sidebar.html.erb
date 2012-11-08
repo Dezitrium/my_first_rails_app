@@ -1,5 +1,3 @@
-<aside class="span4">
-	<% sections.each do |partial, opts = {}| %>
-		<section><%= render partial.dup, opts %></section>
-	<% end %>
-</aside>
+<% sections.each do |partial, opts = {}| %>
+	<section><%= render partial.dup, opts %></section>
+<% end %>

@@ -1,23 +1,18 @@
 <% provide(:title, 'Edit profile') %>
+<% content_for :sidebar do %>
+  <section>
+    <h1>        
+      <%= gravatar_for @user %>
+      <%= link_to 'Change picture', 'http://www.gravatar.com/emails', 
+          :target => '_blank'  %>
+    </h1>
+  </section>
+<% end %>
+
 <h1>Update your profile</h1>
-<div class="row">
-  <aside class="span4">
-    <section>
-      <h1>        
-        <%= gravatar_for @user %>
-        <%= link_to 'Change picture', 'http://www.gravatar.com/emails', 
-            :target => '_blank'  %>
-      </h1>
-    </section>
-  </aside>
-</div>
-<div class="row">
-  <div class="span6 offset3">
-    <%= form_for(@user) do |f| %>
-   	  <%= render 'user_form', target: @user, form: f %>
-      <center>
-        <%= f.submit "Update", class: "btn btn-large btn-primary" %>
-      </center>
-    <% end %>
-  </div>
-</div>
+<%= form_for(@user) do |f| %>
+	  <%= render 'user_form', target: @user, form: f %>
+  <center>
+    <%= f.submit "Update", class: "btn btn-large btn-primary" %>
+  </center>
+<% end %>

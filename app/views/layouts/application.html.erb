@@ -10,10 +10,22 @@
   <body>
     <%= render 'layouts/header' %>    
     <div class="container">
-      <%= render 'layouts/flash_messages' %>
-      <%= yield %>
-      <%= render 'layouts/footer' %>
-      <%= debug(params) if Rails.env.development? %>
+      <%= render 'layouts/flash_messages' %>      
+      <% if content_for?(:sidebar) %>
+        <div class="row">
+          <aside class="span3">
+            <%= yield(:sidebar) %>
+          </aside>
+          <div class="span9">
+            <%= yield %>
+          </div>
+        </div>
+      <% else %>
+        <%= yield %>
+      <% end %>
+      <%= render 'layouts/footer' %>   
+    </div>    
+    <%= debug(params) if Rails.env.development? %>
     </div>
   </body>  
 </html>

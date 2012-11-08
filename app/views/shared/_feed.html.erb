@@ -2,7 +2,7 @@
 	<ol class="microposts">
 		<%= render partial: 'shared/feed_item', collection: @feed_items %>
 	</ol>
-	<center>
-		<%= will_paginate @feed_items, params: { controller: :static_pages, action: :home }%>
-	</center>
+	<%= will_paginate @feed_items, 
+			params: { controller: :static_pages, action: :home },
+			inner_window: 2 %>	
 <% end %>

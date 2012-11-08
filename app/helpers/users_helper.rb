@@ -6,7 +6,8 @@ module UsersHelper
 
   # Gravatar (http://gravatar.com/) 
   DEFAULT_GRAVATAR_OPTIONS = {
-      size:52
+      size: 52,
+      class: 'gravatar'
   }
 
   def gravatar_url(user)
