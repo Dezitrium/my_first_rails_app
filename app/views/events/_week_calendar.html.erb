@@ -1,0 +1,27 @@
+<div class="calendar">
+	<table>	
+		<colgroup>
+			<% calendar.day_abbrvs.each do |abbrv| %>
+				<col class="<%= abbrv %>"/>
+			<% end %>
+		</colgroup>
+		<thead>
+			<tr>
+				<% calendar.day_names.each do |name| %>
+					<th scope="col"><%= name %></th>
+				<% end %>
+			</tr>
+		</thead>
+		<tbody>
+			<% calendar.weeks.each do |week| %>
+				<%= render 'week', week: week %>
+			<% end %>
+			
+		</tbody>
+	</table>
+</div>
+
+<div class="buttons">
+<a href="#" onclick="window.print(); return false;">Print Calendar</a>
+<a href="#">Return to Site</a>
+</div>

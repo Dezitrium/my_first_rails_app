@@ -1,0 +1,10 @@
+<tr class="number">
+	<% week.days.each do |date| %>
+		<td><%= date.day %></td>
+	<% end %>
+</tr>
+<tr class="day">
+	<% week.events.each do |event| %>
+		<td><%= standard_time(event.start_at) %> | <%= event.title %></td>
+	<% end %>	
+</tr>

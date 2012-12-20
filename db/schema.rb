@@ -11,7 +11,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121030110737) do
+ActiveRecord::Schema.define(:version => 20121219125421) do
+
+  create_table "event_data", :force => true do |t|
+    t.integer  "event_id"
+    t.date     "date"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "event_data", ["event_id", "date"], :name => "index_event_data_on_event_id_and_date"
+
+  create_table "events", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "title"
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.string   "recurring_type", :default => "once"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+  end
+
+  add_index "events", ["user_id"], :name => "index_events_on_user_id"
 
   create_table "microposts", :force => true do |t|
     t.integer  "user_id"

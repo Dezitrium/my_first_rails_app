@@ -5,6 +5,8 @@ MyFirstApp::Application.routes.draw do
     member do
       get :following, :followers
     end
+
+    resources :events
   end
 
   resources :sessions, only: [:new, :create, :destroy]

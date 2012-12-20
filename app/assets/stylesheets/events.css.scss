@@ -1,0 +1,64 @@
+
+col.Sat,
+col.Sun {
+	background: #efe;
+}
+
+div.buttons {	 
+	font: 10px Verdana, sans-serif;
+	padding: 10px 0 20px;
+	text-align: center;
+
+	a {
+		background: #ddc;
+		border: 1px solid #bba;
+		color: #000;
+		padding: 3px 5px;
+
+		&:hover {
+			background-color: #efe;
+			color: #693;
+		}
+	}	
+}
+
+div.calendar {
+	width: 100%;
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	tr {
+		border-style:solid;
+		border-width:1px;
+
+		&.day {
+			color: #665;
+			font-size: 9px;
+			height: 90px;
+		}
+
+		&.number {
+			background: #eee;
+			color: #998;
+			font-size: 10px;
+			height: 15px;
+			text-align: right;
+			vertical-align: middle;
+		}
+	}
+
+	th {
+		background: #998;
+		color: #fff;
+		font-size: 11px;
+		font-variant: small-caps;
+		font-weight: normal;
+		height: 15px;
+		text-transform: capitalize;
+		text-align: center;
+		vertical-align: middle;
+	}
+}

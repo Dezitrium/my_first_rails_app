@@ -153,6 +153,21 @@ describe User do
         end
       end      
     end
+
+    describe 'for events' do
+      let!(:event) { FactoryGirl.create(:event, user: user) }
+
+      it { should respond_to :events }    
+      
+      it "should destroy associated events" do
+        events = user.events.dup
+        user.destroy
+        events.should_not be_empty
+        events.each do |event|
+          Event.find_by_id(event.id).should be_nil
+        end
+      end
+    end
   end
 
   describe 'Methods' do

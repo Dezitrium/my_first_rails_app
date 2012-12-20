@@ -34,4 +34,28 @@ FactoryGirl.define do
     user
   end
 
+  factory :event do
+    title "Event (once)"
+    user
+    start_at { DateTime.now.advance(days: 1).change(hour:14) }
+    end_at { DateTime.now.advance(days: 1).change(hour:16) }
+
+    trait :bday do
+      title "Birthday (yearly, allday)"
+      start_at { DateTime.tomorrow }
+      end_at nil
+
+      recurring_type "yearly"
+    end
+
+    trait :lecture do
+      title "Lecture (weekly)"
+      start_at { DateTime.now.advance(days: 1).change(hour:14) }
+      end_at { DateTime.now.advance(months: 3).change(hour:16) }
+
+      recurring_type "weekly"
+    end
+
+  end
+
 end
