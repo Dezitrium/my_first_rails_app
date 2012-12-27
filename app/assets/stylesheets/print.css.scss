@@ -1,0 +1,13 @@
+body * { 
+	visibility: hidden; 
+}
+
+.printable * { 
+	visibility: visible;	
+}
+
+.printable { 
+	position: absolute; 
+	top: 40pt; 
+	left: 30pt;
+}

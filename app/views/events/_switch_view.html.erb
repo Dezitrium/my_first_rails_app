@@ -1,0 +1,11 @@
+<% active ||= (@view || params[:view]).to_sym %>
+
+<ul id="switch_view" class="nav nav-pills">	
+	<li class="nav-header">View as:</li>
+	<li <%= raw("class='active'") if active == :list %>>
+    	<%= link_to 'List', params.merge(view: 'list') %>
+    </li>
+    <li <%= raw("class='active'") if active == :calendar %>>
+    	<%= link_to 'Calendar', params.merge(view: 'calendar') %>
+    </li>
+</ul>

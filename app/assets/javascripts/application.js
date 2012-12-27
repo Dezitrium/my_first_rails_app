@@ -21,4 +21,9 @@ $(function() {
 	  alert(this.getAttribute("data-message"));
 	  return false;
 	})
+
+	$('.number').click(function() {
+      alert("hello");
+      return false;
+  	});
 })

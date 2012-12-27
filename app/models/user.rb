@@ -36,6 +36,9 @@ class User < ActiveRecord::Base
   validates :password, presence: true, length: { minimum: 8 }
   validates :password_confirmation, presence: true
 
+  def todays_events
+    Event.dates_by_user(self.id).for_day(Date.today).map(&:event)
+  end
 
   def feed
     Micropost.from_users_followed_by(self)

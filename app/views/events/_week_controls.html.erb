@@ -1,0 +1,34 @@
+<div id="week_controls" class="event_navi_controls">
+	<ul class="pager">
+		<li class="previous">
+			<%= link_week(@shown_week.prev_week) do |m| 
+				"<i class='icon-arrow-left'></i> " + format_week(m) + ' ' + format_week_range(m)
+			end %>
+		</li>
+		<li class="next">
+			<%= link_week(@shown_week.next_week.end_of_week) do |m| 
+				format_week(m) + ' ' + format_week_range(m) + " <i class='icon-arrow-right'></i>" 
+			end %>
+		</li>
+	</ul>
+
+	<div class="pull-left">
+		<%= render 'switch_view' %>
+	</div>
+
+	<%= link_week(Date.today, { class: "btn pull-right" }) { 'today' } %>
+
+	<form action=<%= week_user_events_path(@user, view: params[:view]) %> method="get" class="pull-right form-inline">
+		<div class="controls">
+		<label class="control-label" for="selectCWeek">CW</label>
+		<select id="selectCWeek" name="cweek" class="input-mini">
+			<%= options_for_select((1..53).to_a, @shown_week.cweek.to_i) %>
+		</select>
+		<label class="control-label" for="selectYear">Year</label>
+		<select id="selectYear" name="year" class="input-small">
+			<%= select_year_options(@shown_week) %>					
+		</select>
+		<button type="submit" class="btn">Go</button>	
+		</div>
+	</form>	
+</div>

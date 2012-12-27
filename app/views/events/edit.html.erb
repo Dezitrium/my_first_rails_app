@@ -2,5 +2,9 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @event %> |
-<%= link_to 'Back', events_path %>
+<p class="pull-right">
+	<%= link_to 'Delete Event', user_event_path(@user, @event), 
+								method: 'delete', 
+								confirm: 'Are you sure?',
+								class: 'btn btn-danger' %>
+</p>

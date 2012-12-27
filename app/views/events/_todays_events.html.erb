@@ -1,0 +1,6 @@
+<a href="<%= today_user_events_path(@user) %>">
+    <strong id="events-count" class="stat">
+      <%= @user.todays_events.count %>
+    </strong>
+    today's <%= "event".pluralize(@user.todays_events.count) %>
+</a>

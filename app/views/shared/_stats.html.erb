@@ -1,9 +1,12 @@
 <div class="stats">
   <% @user ||= current_user %> 
   <div id="following">
-    <%= render 'shared/following' %>
+    <%= render 'relationships/following' %>
   </div>
   <div id="followers">
-    <%= render 'shared/followers' %>
-  </div>  
+    <%= render 'relationships/followers' %>
+  </div>
+  <div id="todays_events">
+    <%= render 'events/todays_events' %>
+  </div> 
 </div>

@@ -1,8 +1,14 @@
 <li>
-  <%= gravatar_for user %>
-  <%= link_to user.name, user %>
-  <% if current_user.admin? && !user.admin? %>
-    | <%= link_to "delete", user, method: :delete,
-                                  data: { confirm: "You sure?" } %>
-  <% end %>
+	<% if current_user.admin? && !user.admin? %>
+		<div>
+		    <div class="pull-right">
+		    <%= button_to "delete", user, method: :delete,
+												data: { confirm: "You sure?" },
+					                            title: user.name,
+					                            class: "btn btn-danger" %>
+		    </div>		   		    
+		</div>
+	<% end %>
+	<%= gravatar_for user %>
+	<%= link_to user.name, user %>  
 </li>

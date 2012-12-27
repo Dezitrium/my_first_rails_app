@@ -1,3 +1,9 @@
-<% sections.each do |partial, opts = {}| %>
-	<section><%= render partial.dup, opts %></section>
-<% end %>
+<section>
+	<%= render 'shared/user_info' %>
+</section>
+<section>
+	<%= render 'shared/stats' %>
+</section>
+<section>
+	<%= render 'users/users_wall' %>
+</section>

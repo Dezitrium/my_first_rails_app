@@ -1,5 +1,7 @@
-<p id="notice"><%= notice %></p>
+<% provide(:active_tab, 'events' ) %>
 
+<% content_for :sidebar do %>
+  <%= render 'shared/sidebar' %>
+<% end %>
 
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+<h3>Event: <%= @event.title %></h3>

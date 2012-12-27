@@ -1,9 +1,8 @@
+<% provide(:active_tab, 'home' ) %>
+
 <% content_for :sidebar do %>
-  <%= render 'shared/sidebar', sections: 
-		[ 'shared/user_info', 
-		  'shared/stats',
-		  'shared/micropost_form' ]  %>
+  <%= render 'shared/sidebar' %>
 <% end %>
 	
-<h3>Micropost Feed</h3>
-<%= render 'shared/feed' %>
+<h3>Micropost Feed (<%= @feed_items.count %>)</h3>
+<%= render 'microposts/feed' %>

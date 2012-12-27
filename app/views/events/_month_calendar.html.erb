@@ -1,0 +1,44 @@
+<div id="month_calendar" class="calendar">
+	<table class="table-bordered">    	
+		<colgroup>
+			<% day_abbrvs.each do |abbrv| %>
+				<col class="<%= abbrv %>"/>
+			<% end %>
+		</colgroup>
+		<thead>
+			<tr>
+				<% day_names.each do |name| %>
+					<th scope="col"><%= name %></th>
+				<% end %>
+			</tr>
+		</thead>
+		<tbody>
+			<% today = Date.today %>
+			<% @calendar.weeks.each do |week| %>
+				<tr class="number">
+					<% week.days.each do |date| %>
+						<td><%= date.day %></td>
+					<% end %>
+				</tr>				
+				<tr class="day">
+					<% week.days.each do |date| %>
+					<% if date.month != @shown_month.month %>
+					<td class="not-in-month">
+					<% elsif date == today %>
+					<td class="today">
+					<% else %>
+					<td>
+					<% end %>
+						<dl>
+						<% week.events_for_date.call(date, limit: 10).each do |event| %>
+							<dt class="date"><%= format_time(event.start_at) %></dt>
+							<dd class="title"><%= link_show_event(event) { |e| e.title } %></dd>
+						<% end %>
+						</dl>
+					</td>
+					<% end %>
+				</tr>
+			<% end %>			
+		</tbody>
+	</table>
+</div>

@@ -1,0 +1,10 @@
+<% if current_user?(item.user) %>
+	<div>
+	    <div class="pull-right">
+	    <%= button_to "delete", item, method: :delete,
+											data: { confirm: "You sure?" },
+				                            title: item.content,
+				                            class: "btn btn-danger" %>
+	    </div>		   		    
+    </div>
+<% end %>

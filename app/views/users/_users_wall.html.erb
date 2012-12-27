@@ -1,4 +1,4 @@
-<% if @users.any? %>
+<% unless @users.blank? %>
 	<div class="user-wall">	
 		<% @users.each do |user| %>
 			<%= link_to gravatar_for(user, size: 30), user %>

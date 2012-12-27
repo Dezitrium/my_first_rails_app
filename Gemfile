@@ -7,12 +7,14 @@ gem 'will_paginate',  '3.0.3'
 gem 'bootstrap-sass', '2.0.4'
 gem 'bootstrap-will_paginate', '0.0.6'
 gem 'date_validator'
+gem 'simple_form'
 
 group :development do
   gem 'annotate', '2.5.0'
 end
 
 group :development, :test do
+  gem 'hirb',        '0.7.0'
   gem 'pry-rails',   '0.2.1'
   gem 'pry-debugger','0.2.0'
   gem 'sqlite3',     '1.3.5'

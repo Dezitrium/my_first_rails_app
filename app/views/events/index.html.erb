@@ -1,7 +1,48 @@
-<h1>Listing events</h1>
+<% provide(:title, 'Events' ) %>
+<% provide(:active_tab, 'events' ) %>
 
-<div>
-<%= render 'week_calendar', calendar: @cal %>
+<% content_for :sidebar do %>
+  <%= render 'shared/sidebar' %>
+<% end %>
+
+<div id="event-header" class="printable">
+	<h3>
+	<%= case params[:action]
+			when 'index'; "All Events"
+			when 'today'; "Today's Events"
+			when 'week';  "Events for #{format_week(@shown_week)} #{format_week_range(@shown_week)}"
+			when 'month'; "Events for #{format_month(@shown_month)}"
+	end %>
+	</h3>
+
+	<% unless current_user?(@user) %>
+		<h4><em><%= @user.name %></em></h4>
+	<% end %>
 </div>
 
-<%= link_to 'New Event', new_user_event_path %>
+<%= case params[:action]
+		when 'week';  render 'week_controls'
+		when 'month'; render 'month_controls'
+end %>
+
+<div class="printable">
+<% case @view %>
+<% when :list %>
+	<% unless @events.blank? %>
+		<ol class="model-lists">
+	  		<%= render @events %>
+		</ol>
+	<% else %>
+		<div class="clearfix">
+			<em id="no-events" class="pull-left">No events found.</em>&nbsp;		
+		</div>
+	<% end %>
+<% when :calendar %>
+	<%= case @calendar
+		when WeekCalendar;  render 'week_calendar'
+		when MonthCalendar;	render 'month_calendar'
+	end %>
+<% end %>
+</div>
+
+<%= render 'event_controls' %>

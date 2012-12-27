@@ -1,0 +1,20 @@
+<li>
+	<% if current_user?(event.user) %>
+		<div>
+		    <div class="pull-right">
+		    <%= button_to "delete", user_event_path(@user, event), method: :delete,
+												data: { confirm: "You sure?" },
+					                            title: event.title,
+					                            class: "btn btn-danger" %>
+		    </div>
+		    <div class="pull-right">
+		    	<%= button_to "edit", edit_user_event_path(@user, event), class: "btn" %>
+		   	</div>		   		    
+	    </div>
+	<% end %>
+	<span class="content"><%= link_show_event(event) { |m| m.title } %></span>
+	<span class="timestamp">
+	Begin: <%= format_datetime(event.start_at) %><br>
+	End:   <%= format_datetime(event.end_at) %>
+	</span>	
+</li>

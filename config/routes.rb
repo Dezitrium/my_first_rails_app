@@ -6,7 +6,15 @@ MyFirstApp::Application.routes.draw do
       get :following, :followers
     end
 
-    resources :events
+    resources :events do
+      collection do
+        get :today
+        scope '(:view)', view: /list|calendar/ do
+          get 'week(/:year(/:cweek))', as: :week, to: 'events#week', constraints: { year: /\d{4}/, cweek: /\d{1,2}/ }        
+          get 'month(/:year(/:month))', as: :month, to: 'events#month', constraints: { year: /\d{4}/, month: /\d{1,2}/ }
+        end     
+      end
+    end
   end
 
   resources :sessions, only: [:new, :create, :destroy]

@@ -3,13 +3,13 @@
 	<h1>	
 		<%= link_to gravatar_for(@user), user_path(@user) %>
 		<%= link_to @user.name, @user %>
-	</h1>
+	</h1>	
 	<span>
-		<%= pluralize(@user.microposts.count, "micropost") %>
+		<%= pluralize(@user.microposts.count, "micropost") %><br>
+		<%= pluralize(@user.events.count, "event") %>
 	</span>
 </div>
 
 <div>
-	<%= render 'follow_form' if signed_in? && !current_user?(@user) %> 
+	<%= render 'users/follow_form' if signed_in? && !current_user?(@user) %> 
 </div>
-

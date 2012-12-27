@@ -10,9 +10,4 @@
 <% end %>
 
 <h1>Update your profile</h1>
-<%= form_for(@user) do |f| %>
-	  <%= render 'user_form', target: @user, form: f %>
-  <center>
-    <%= f.submit "Update", class: "btn btn-large btn-primary" %>
-  </center>
-<% end %>
+<%= render 'form', submit: "Update" %>

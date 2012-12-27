@@ -1,14 +1,13 @@
 <% provide(:title, @title ) %>
+<% provide(:active_tab, 'microposts' ) %>
+
 <% content_for :sidebar do %>
-  <%= render 'shared/sidebar', sections:
-    [ 'shared/user_info',
-      'shared/stats',
-      'users/users_wall' ]  %>
+  <%= render 'shared/sidebar' %>
 <% end %>
 
-<% if @users.any? %>
+<% unless @users.blank? %>
   <section>    
-    <h3><%= @h3_follows %></h3>
+    <h3><%= @sub_h3 %></h3>
     <div class="users-small">
       <ul class="users">          
         <% @users.each do |user| %>
@@ -18,10 +17,10 @@
     </div>    
   </section>
 <% end %>
-<% if @user.microposts.any? %>
+<% unless @microposts.blank? %>
   <section>      
     <h3>Microposts (<%= @user.microposts.count %>)</h3>
-    <ol class="microposts">
+    <ol class="model-lists">
       <%= render @microposts %>
     </ol>
     <%= will_paginate @microposts, :param_name => 'microposts_page' %>      

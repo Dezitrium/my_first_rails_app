@@ -1,33 +1,38 @@
 class WeekCalendar
 
-  attr_accessor :month, :year
-
-  def initialize(month, year) 
-    self.month = month
-    self.year = year
+  def initialize(start_at, events)
+    @duration = (start_at.beginning_of_week.to_date..start_at.end_of_week.to_date)
+    create_days(events)    
   end
 
-  def weeks
-    [Week.new,Week.new,Week.new,Week.new,Week.new,Week.new,Week.new]
+  def days
+    @duration
   end
 
-  def day_abbrvs
-    #%w(Mon Die Mit Don Fre Sam Son)
-    %w(Mon Tue Wed Thu Fri Sat Sun)
+  def [] (val)
+    @days[val]
   end
 
-  def day_names
-    %w(Montag Dienstag Mittwoch Donnerstag Freitag Samstag Sonntag)
-  end
+  private 
 
-
-  class Week
-    def days
-      [Date.today,Date.today,Date.today,Date.today,Date.today,Date.today,Date.today]
+    class Day < Struct.new(:name, :abbrv, :data)
     end
 
-    def events
-      User.find(1).events
+    def create_days(events)    
+      @days = {}
+      event_data = events.group_by(&:date)
+
+      @duration.each do |date|
+        day = Day.new
+        day.name  = date.strftime('%A')
+        day.abbrv = date.strftime('%a')
+        unless event_data[date].blank?
+          day.data = DayData.new(event_data[date].map(&:event)
+                                                 .sort_by { |evt| evt.start_at.hour })
+        else
+          day.data = DayData.new
+        end
+        @days[date] = day
+      end
     end
-  end
 end

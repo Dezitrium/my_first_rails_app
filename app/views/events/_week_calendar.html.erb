@@ -1,27 +1,38 @@
-<div class="calendar">
-	<table>	
-		<colgroup>
-			<% calendar.day_abbrvs.each do |abbrv| %>
-				<col class="<%= abbrv %>"/>
-			<% end %>
-		</colgroup>
+<div id="week_calendar" class="calendar">
+	<table class="table">
+		<col class="hour"/>
+		<% @calendar.days.each do |day| %>
+			<colgroup span="<%= @calendar[day].data.span %>" class="<%= @calendar[day].abbrv %>"></colgroup>
+		<% end %>
 		<thead>
 			<tr>
-				<% calendar.day_names.each do |name| %>
-					<th scope="col"><%= name %></th>
+				<th scope="col"><%= hour_column %></th>
+				<% @calendar.days.each do |day| %>
+					<th scope="colgroup" colspan="<%= @calendar[day].data.span %>">
+						<%= @calendar[day].name %>
+					</th>
 				<% end %>
 			</tr>
 		</thead>
 		<tbody>
-			<% calendar.weeks.each do |week| %>
-				<%= render 'week', week: week %>
-			<% end %>
-			
+			<% 24.times do |hour| %>
+      			<tr class="hour">
+        			<td class="hour"><%= "%.2d"%[hour] %>:00</td>
+        			<% @calendar.days.each do |day| %>
+						<% @calendar[day].data.get_events_for(hour: hour).each_with_index do |event_data, col| %>
+		        			<% unless event_data == :lasts %>
+			        			<% unless event_data.blank? %>			        				
+			        				<td rowspan="<%= event_data[0] %>" class="event event-col-<%= col+1 %>">
+			        					<%= link_show_event(event_data[1]) {|e| vertical_text(e.title) } %>
+			        				</td>
+			        			<% else %>
+			        				<td></td>			        				
+			        			<% end %>
+	        				<% end %>
+	        			<% end %>
+        			<% end %>
+      			</tr>
+    		<% end %>		
 		</tbody>
-	</table>
-</div>
-
-<div class="buttons">
-<a href="#" onclick="window.print(); return false;">Print Calendar</a>
-<a href="#">Return to Site</a>
+	</table>	
 </div>

@@ -1,64 +1,117 @@
-
-col.Sat,
-col.Sun {
-	background: #efe;
+#event-header {
+	margin-bottom: 15px;
+	padding-bottom: 15px;
 }
 
-div.buttons {	 
-	font: 10px Verdana, sans-serif;
-	padding: 10px 0 20px;
-	text-align: center;
+.event_navi_controls {
+	height: 70px;
+	margin-bottom: 15px;
 
-	a {
-		background: #ddc;
-		border: 1px solid #bba;
-		color: #000;
-		padding: 3px 5px;
-
-		&:hover {
-			background-color: #efe;
-			color: #693;
-		}
-	}	
-}
-
-div.calendar {
-	width: 100%;
-
-	table {
-		width: 100%;
-		border-collapse: collapse;
+	.pager {
+		margin-bottom: 5px;
 	}
 
+	.nav { 
+		margin-bottom: 0;
+	}
+}
+
+#no-events {	
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.calendar {	
+	table {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	.Sat,
+	.Sun {
+		background: #efe;
+	}
+
+	.event { }
+	.event-col-1 { background: #6d6198; }
+	.event-col-2 { background: #db8083; }
+	.event-col-3 { background: #6db369; }
+	.event-col-4 { background: #ddcc82; }
+	.event-col-5 { background: #9d91c9; }
+	.event-col-6 { background: #eca1a3; }
+	.event-col-7 { background: #96d793; }
+	.event-col-8 { background: #ede0a2; }
+
+	.calendar_caption {
+		font-size: 20px;
+		line-height: 2em;
+	}	
+
 	tr {
-		border-style:solid;
-		border-width:1px;
-
-		&.day {
-			color: #665;
-			font-size: 9px;
-			height: 90px;
-		}
-
 		&.number {
-			background: #eee;
-			color: #998;
+			background: $grayLight;
+			color: $grayMediumLight;
 			font-size: 10px;
 			height: 15px;
 			text-align: right;
 			vertical-align: middle;
 		}
+
+		&.day {
+			color: #665;
+			font-size: 9px;
+			height: 90px;
+			vertical-align: top;
+
+			.not-in-month {
+				background: #eee;
+			}
+
+			.today {
+				background: #f6d3d3;
+			}
+
+			.date {
+			}
+
+			.title {
+			}
+		}	
 	}
 
 	th {
-		background: #998;
-		color: #fff;
+		background: $grayMediumLight;
+		color: black;
 		font-size: 11px;
-		font-variant: small-caps;
-		font-weight: normal;
-		height: 15px;
-		text-transform: capitalize;
-		text-align: center;
-		vertical-align: middle;
+		height: 15px;				
+	}
+}
+
+#week_calendar {
+
+	a {
+ 		color: black;
+		display: block;
+		height: auto;
+		text-decoration: none;
+
+		em {
+			display: block;
+			font-size: 150%;
+			line-height: 150%;
+			font-style: normal;			
+			text-align:center;			
+		}
+
+		&:hover em {
+  			color:#800;
+  		}
+	}
+
+
+	colgroup {
+		border-left-color: #DDDDDD;
+    	border-left-style: solid;
+    	border-left-width: 1px;
 	}
 }

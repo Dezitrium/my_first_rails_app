@@ -2,30 +2,35 @@
 <html>
   <head>
     <title><%= full_title(yield(:title)) %></title>
-    <%= stylesheet_link_tag    "application", media: "all" %>
+    <%= stylesheet_link_tag "application", media: "screen, print" %>
+    <%= stylesheet_link_tag "print", :media => "print" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <%= render 'layouts/shim' %>    
   </head>
   <body>
-    <%= render 'layouts/header' %>    
-    <div class="container">
-      <%= render 'layouts/flash_messages' %>      
-      <% if content_for?(:sidebar) %>
-        <div class="row">
-          <aside class="span3">
+    <%= render 'layouts/header' %>
+          
+    <% if content_for?(:sidebar) %>
+      <div class="container-fluid">
+        <div class="row-fluid">
+          <div id="sidebar" class="span3">
             <%= yield(:sidebar) %>
-          </aside>
-          <div class="span9">
+          </div>
+          <div id="main"class="span8">
+            <%= render 'layouts/top_navi', active: yield(:active_tab) %>
+            <%= render 'layouts/flash_messages' %>
             <%= yield %>
           </div>
         </div>
-      <% else %>
+      </div>
+    <% else %>
+      <div id="main" class="container">
+        <%= render 'layouts/flash_messages' %>
         <%= yield %>
-      <% end %>
-      <%= render 'layouts/footer' %>   
-    </div>    
+      </div>      
+    <% end %>
+    <%= render 'layouts/footer' %>
     <%= debug(params) if Rails.env.development? %>
-    </div>
   </body>  
 </html>

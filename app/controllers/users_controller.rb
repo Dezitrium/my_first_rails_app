@@ -38,7 +38,8 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @users = []
     # @paginated_users = paginate_users(@users) # TODO: decide to use pagination
-    @microposts = paginate_microposts(@user)
+    @microposts = paginate_microposts(@user.microposts)
+    @active_tab = :microposts
 
     @title = @user.name
   end
@@ -57,10 +58,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @users = @user.followed_users
     #@paginated_users = paginate_users(@users) # TODO: decide to use pagination
-    @microposts = paginate_microposts(@user)
+    @microposts = paginate_microposts(@user.microposts)
 
-    @h3_follows = 'Following'
-    @title = "#{@user.name} - #{@h3_follows}"
+    @sub_h3 = 'Following'
+    @title = "#{@user.name} - #{@sub_h3}"
+    @active_tab = :microposts
 
     render 'show'
   end
@@ -69,10 +71,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @users = @user.followers
     #@paginated_users = paginate_users(@users) # TODO: decide to use pagination
-    @microposts = paginate_microposts(@user)
+    @microposts = paginate_microposts(@user.microposts)
 
-    @h3_follows = 'Followers'
-    @title = "#{@user.name} - #{@h3_follows}"
+    @sub_h3 = 'Followers'
+    @title = "#{@user.name} - #{@sub_h3}"
+    @active_tab = :microposts
 
     render 'show'
   end
@@ -81,12 +84,12 @@ class UsersController < ApplicationController
 
     def signed_in_users
       return unless signed_in?
-      redirect_to root_url, notice:"Can't create more accounts"
+      redirect_to root_url, notice: "Can't create more accounts"
     end
 
     def correct_user
       user = User.find(params[:id])
-      redirect_to root_url, notice:"Can't edit other users" unless current_user?(user)
+      redirect_to root_url, notice: "Can't edit other users" unless current_user?(user)
     end
 
     def admin_user
@@ -97,11 +100,6 @@ class UsersController < ApplicationController
         message = "Can't delete other users"
       end
       redirect_to root_url, notice: message if message
-    end
-
-
-    def paginate_microposts(user)
-      user ? user.microposts.paginate(page: params[:microposts_page], per_page: 10) : []
     end
 
     # def paginate_users(users)

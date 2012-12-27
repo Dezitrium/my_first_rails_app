@@ -5,6 +5,10 @@ class ApplicationController < ActionController::Base
   private
 
     def feed_items
-        signed_in? ? current_user.feed.paginate(page: params[:page], per_page: 10) : []
-    end 
+      signed_in? ? current_user.feed.paginate(page: params[:page], per_page: 20) : []
+    end
+
+    def paginate_microposts(posts)
+      posts.paginate(page: params[:microposts_page], per_page: 20)
+    end
 end

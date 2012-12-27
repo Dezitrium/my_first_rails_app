@@ -4,8 +4,6 @@ class CreateEventData < ActiveRecord::Migration
       t.integer :event_id
 
       t.date :date
-
-      t.timestamps
     end
 
     add_index :event_data, [:event_id, :date]

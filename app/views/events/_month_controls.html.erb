@@ -1,0 +1,28 @@
+<div id="month_controls" class="event_navi_controls">
+	<ul class="pager">
+		<li class="previous">
+			<%= link_month(@shown_month.prev_month) { |m| "<i class='icon-arrow-left'></i> " + format_month(m) } %>
+		</li>		
+		<li class="next">
+			<%= link_month(@shown_month.next_month) { |m| format_month(m) + " <i class='icon-arrow-right'></i>" } %>
+		</li>
+	</ul>
+
+	<div class="pull-left">
+		<%= render 'switch_view' %>
+	</div>
+
+	<%= link_month(Date.today, { class: "btn pull-right" }) { 'today' } %>
+
+	<form action=<%= month_user_events_path(@user, view: params[:view]) %> method="get" class="pull-right form-inline">
+			<label class="control-label" for="selectMonth">Month</label>
+			<select id="selectMonth" name="month" class="input-mini">
+				<%= options_for_select((1..12).to_a, @shown_month.month.to_i) %>
+			</select>
+			<label class="control-label" for="selectYear">Year</label>
+			<select id="selectYear" name="year" class="input-small">
+				<%= select_year_options(@shown_month) %>					
+			</select>		
+			<button type="submit" class="btn">Go</button>		
+	</form>	
+</div>

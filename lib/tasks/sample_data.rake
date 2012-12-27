@@ -5,6 +5,7 @@ namespace :db do
     make_users
     make_microposts
     make_relationships
+    make_events
   end
 
   private 
@@ -55,6 +56,43 @@ namespace :db do
 
       followed_users.each { |followed| user.follow! followed }
       followers.each      { |follower| follower.follow! user }
+    end
+
+    def make_events      
+      users = User.all(limit: 6)
+
+      now = DateTime.now
+      users.each do |user| 
+        user.events.create!(title: 'Party', 
+          start_at: now.change(day:26, month:12, hour:18), 
+          end_at: now.change(day:26, month:12, hour:22), 
+          recurring_type: :once)
+
+        user.events.create!(title: 'Kaffepause', 
+          start_at: now.change(hour:12), 
+          end_at: now.advance(months: 3).change(hour:12, min:30),
+          recurring_type: :daily)
+
+        user.events.create!(title: 'Vorlesung 1', 
+          start_at: now.advance(days: 1).change(hour:14), 
+          end_at: now.advance(months: 3).change(hour:16),
+          recurring_type: :weekly)
+
+        user.events.create!(title: 'Vorlesung 2', 
+          start_at: now.advance(days: 2).change(hour:10), 
+          end_at: now.advance(months: 3).change(hour:13),
+          recurring_type: :weekly)
+
+        user.events.create!(title: 'Birthday', 
+          start_at: now.change(day:6, month:11).beginning_of_day, 
+          end_at: now.change(year:2025, day:6, month:11).end_of_day, 
+          recurring_type: :yearly)
+
+        user.events.create!(title: 'Work', 
+          start_at: now.change(hour:9), 
+          end_at: now.advance(years: 3).change(hour:15), 
+          recurring_type: :workdays)    
+      end
     end
 end
 
