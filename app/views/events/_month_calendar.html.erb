@@ -1,14 +1,12 @@
 <div id="month_calendar" class="calendar">
-	<table class="table-bordered">    	
-		<colgroup>
-			<% day_abbrvs.each do |abbrv| %>
-				<col class="<%= abbrv %>"/>
-			<% end %>
-		</colgroup>
+	<table class="table-bordered">	
+		<% @calendar.days.each do |day| %>
+		<colgroup class="<%= day.strftime('%a') %>"></colgroup>
+		<% end %>
 		<thead>
-			<tr>
-				<% day_names.each do |name| %>
-					<th scope="col"><%= name %></th>
+			<tr>				
+				<% @calendar.days.each do |day| %>
+				<th scope="colgroup"><%= day.strftime('%A') %></th>
 				<% end %>
 			</tr>
 		</thead>

@@ -1,16 +1,17 @@
 module EventsHelper
 
-  def day_abbrvs
-    #%w(Mon Die Mit Don Fre Sam Son)
-    %w(Mon Tue Wed Thu Fri Sat Sun)
+  def day_abbrvs    
+    #%w(Mon Tue Wed Thu Fri Sat Sun)
+    Date::ABBR_DAYNAMES
   end
 
   def hour_column
-    'Uhrzeit'
+    'Time'
   end
 
   def day_names
-    %w(Montag Dienstag Mittwoch Donnerstag Freitag Samstag Sonntag)
+    Date::DAYNAMES
+    #%w(Montag Dienstag Mittwoch Donnerstag Freitag Samstag Sonntag)
   end
 
   def link_week(date, html_opts = {})
@@ -64,7 +65,7 @@ module EventsHelper
   end
 
   def format_time(time)
-    time.respond_to?(:strftime) ? time.strftime('%I:%M %p') : ""
+    time.respond_to?(:strftime) ? time.strftime('%I:%M%p') : ""
   end  
 
   def select_year_options(date)

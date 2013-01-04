@@ -16,8 +16,10 @@ module RecurringTypes
   end
 
   def self.workdays(date)
+    result = date
     begin 
-      date += 1 
-    end while [0,6].include? date.wday        
+      result = result.advance(days:1)
+    end while [0,6].include? result.wday        
+    result
   end
 end

@@ -3,11 +3,20 @@ body * {
 }
 
 .printable * { 
-	visibility: visible;	
+	visibility: visible;
 }
 
-.printable { 
-	position: absolute; 
-	top: 40pt; 
-	left: 30pt;
+.noprint {
+  display: none;
+}
+
+.printable {
+	position: absolute;
+	top: 10pt;
+	right: 10pt;
+	left: 10pt;
+}
+
+td {
+	border: 1px solid #E8E8E8;
 }

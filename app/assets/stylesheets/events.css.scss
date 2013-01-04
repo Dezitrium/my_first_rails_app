@@ -3,6 +3,12 @@
 	padding-bottom: 15px;
 }
 
+#event-stats {
+	ol {
+		margin-left: 0;
+	}	
+}
+
 .event_navi_controls {
 	height: 70px;
 	margin-bottom: 15px;
@@ -27,6 +33,10 @@
 		table-layout: fixed;
 	}
 
+	.hour {
+		width: 50px;
+	}
+
 	.Sat,
 	.Sun {
 		background: #efe;
@@ -46,6 +56,10 @@
 		font-size: 20px;
 		line-height: 2em;
 	}	
+
+	colgroup {
+		width: 14%;
+	}
 
 	tr {
 		&.number {
@@ -97,10 +111,11 @@
 
 		em {
 			display: block;
-			font-size: 150%;
-			line-height: 150%;
-			font-style: normal;			
-			text-align:center;			
+			font-size: 110%;
+			line-height: 120%;
+			font-style: normal;
+			font-weight: bold;
+			text-align: center;			
 		}
 
 		&:hover em {

@@ -7,6 +7,10 @@ class EventData < ActiveRecord::Base
 
   validates :date, presence: true
 
+  def self.from_date(date)
+    where( ["date >= ?", date] )
+  end
+
   def self.for_day(date)
     where( date: date.beginning_of_day..date.end_of_day+1 )
   end

@@ -18,31 +18,29 @@
 	<% unless current_user?(@user) %>
 		<h4><em><%= @user.name %></em></h4>
 	<% end %>
-</div>
 
-<%= case params[:action]
-		when 'week';  render 'week_controls'
-		when 'month'; render 'month_controls'
-end %>
-
-<div class="printable">
-<% case @view %>
-<% when :list %>
-	<% unless @events.blank? %>
-		<ol class="model-lists">
-	  		<%= render @events %>
-		</ol>
-	<% else %>
-		<div class="clearfix">
-			<em id="no-events" class="pull-left">No events found.</em>&nbsp;		
-		</div>
-	<% end %>
-<% when :calendar %>
-	<%= case @calendar
-		when WeekCalendar;  render 'week_calendar'
-		when MonthCalendar;	render 'month_calendar'
+	<%= case params[:action]
+			when 'week';  render 'week_controls'
+			when 'month'; render 'month_controls'
 	end %>
-<% end %>
+
+	<% case @view %>
+	<% when :list %>
+		<% unless @events.blank? %>
+			<ol class="model-lists">
+		  		<%= render @events %>
+			</ol>
+		<% else %>
+			<div class="clearfix">
+				<em id="no-events" class="pull-left">No events found.</em>&nbsp;		
+			</div>
+		<% end %>
+	<% when :calendar %>
+		<%= case @calendar
+			when WeekCalendar;  render 'week_calendar'
+			when MonthCalendar;	render 'month_calendar'
+		end %>
+	<% end %>
 </div>
 
 <%= render 'event_controls' %>

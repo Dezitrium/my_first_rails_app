@@ -1,16 +1,16 @@
 <div id="week_calendar" class="calendar">
-	<table class="table">
+	<table class="table table-condensed">
 		<col class="hour"/>
 		<% @calendar.days.each do |day| %>
-			<colgroup span="<%= @calendar[day].data.span %>" class="<%= @calendar[day].abbrv %>"></colgroup>
+		<colgroup span="<%= @calendar[day].span %>" class="<%= day.strftime('%a') %>"></colgroup>
 		<% end %>
 		<thead>
 			<tr>
 				<th scope="col"><%= hour_column %></th>
 				<% @calendar.days.each do |day| %>
-					<th scope="colgroup" colspan="<%= @calendar[day].data.span %>">
-						<%= @calendar[day].name %>
-					</th>
+				<th scope="colgroup" colspan="<%= @calendar[day].span %>">
+					<%= day.strftime('%A') %>
+				</th>
 				<% end %>
 			</tr>
 		</thead>
@@ -19,7 +19,7 @@
       			<tr class="hour">
         			<td class="hour"><%= "%.2d"%[hour] %>:00</td>
         			<% @calendar.days.each do |day| %>
-						<% @calendar[day].data.get_events_for(hour: hour).each_with_index do |event_data, col| %>
+						<% @calendar[day].get_events_for(hour: hour).each_with_index do |event_data, col| %>
 		        			<% unless event_data == :lasts %>
 			        			<% unless event_data.blank? %>			        				
 			        				<td rowspan="<%= event_data[0] %>" class="event event-col-<%= col+1 %>">

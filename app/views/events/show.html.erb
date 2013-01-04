@@ -1,3 +1,4 @@
+<% # TODO do it %>
 <% provide(:active_tab, 'events' ) %>
 
 <% content_for :sidebar do %>
@@ -5,3 +6,34 @@
 <% end %>
 
 <h3>Event: <%= @event.title %></h3>
+
+<div id="event-stats">
+	<dl class="dl-horizontal">
+		<dt>Recurring type</dt>
+			<dd><%= @event.recurring_type%></dd>
+		<dt>Begin</dt>
+			<dd><%= format_datetime(@event.start_at) %></dd>
+		<dt>End</dt>
+			<dd><%= format_datetime(@event.end_at) %>
+				<% if @dates.blank? %><em>(Event is over.)</em><% end %>
+			</dd>
+		<% unless @dates.blank? %>
+			<dt><%= (@dates.count > 1 ? "Next #{@dates.count} " : "Last ") + "Date".pluralize(@dates.count) %></dt>
+
+			<dd>
+				<ol class="inline-list">
+					<% @dates.each_with_index do |event_data, i| %>
+						<li><%= format_date(event_data.date) %></li>
+						<% if (i+1) % 10 == 0 %><br><% end %>
+					<% end %>
+				</ol>
+			</dd>
+		<% end %>
+	</dl>
+</div>
+
+<% if current_user?(@user) %>
+	<div class="form-actions">	
+		<%= link_to 'Edit Event', edit_user_event_path(@user, @event), class: 'btn btn-primary' %>
+	</div>
+<% end %>

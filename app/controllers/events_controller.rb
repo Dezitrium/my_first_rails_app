@@ -10,7 +10,14 @@ class EventsController < ApplicationController
 
   def show
     @event = @user.events.find(params[:id])
-    @dates = @event.event_data
+
+    now = (Time.zone || Time).now
+    if @event.end_at.hour > now.hour
+      date = Date.tomorrow
+    else
+      date = Date.today
+    end
+    @dates = @event.event_data.from_date(date).limit(20)
   end
 
   def new

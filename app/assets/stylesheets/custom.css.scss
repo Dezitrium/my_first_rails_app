@@ -24,6 +24,12 @@ textarea {
   }
 }
 
+.timestamp {
+  color: $grayLight;
+}
+
+/* lists */
+
 .model-lists {
   width: 80%;
   margin-top: 10px;
@@ -40,6 +46,21 @@ textarea {
     margin-right: 10px;
   }
 }
+
+.inline-list {
+  list-style: none;
+
+  p {
+    display: inline;
+  }
+
+  ul, li {
+    display: inline;
+    margin: 0;
+    padding-right: 10px;
+  }
+}
+
 
 /* typography */
 

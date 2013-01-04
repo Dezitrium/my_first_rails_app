@@ -1,5 +1,4 @@
 <% active ||= (@view || params[:view]).to_sym %>
-
 <ul id="switch_view" class="nav nav-pills">	
 	<li class="nav-header">View as:</li>
 	<li <%= raw("class='active'") if active == :list %>>
