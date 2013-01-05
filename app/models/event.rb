@@ -15,7 +15,7 @@ class Event < ActiveRecord::Base
   RECURRING_TYPES = RecurringTypes.methods(false)
 
   validates :user_id, presence: true
-  validates :title, presence: true, length: { maximum: 160 }
+  validates :title, presence: true, length: { maximum: 160 }, uniqueness: { scope: :user_id }
   validates :start_at, presence: true
   validates :end_at, presence: true, date: { after: :start_at }, unless: Proc.new { |a| a.recurring_type == :once }
   validates :recurring_type, presence: true, inclusion: { in: RECURRING_TYPES }

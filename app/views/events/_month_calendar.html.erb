@@ -28,7 +28,7 @@
 					<td>
 					<% end %>
 						<dl>
-						<% week.events_for_date.call(date, limit: 10).each do |event| %>
+						<% week.events_for_date.call(date).each do |event| %>
 							<dt class="date"><%= format_time(event.start_at) %></dt>
 							<dd class="title"><%= link_show_event(event) { |e| e.title } %></dd>
 						<% end %>

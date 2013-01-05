@@ -31,16 +31,9 @@ class MonthCalendar
       dates = @dates[date.beginning_of_week]
       return [] if dates.blank?
 
-      opts = { limit: dates.count }.merge in_opts
-      
-      Enumerator.new do |yielder|          
-        limit = opts[:limit]
-        while limit>0 && !dates.empty? && dates.first.date == date         
+      Enumerator.new do |yielder|
+        while !dates.empty? && dates.first.date == date         
           yielder.yield dates.shift.event
-          limit -= 1
-          if limit==0
-            @dates[date.beginning_of_week] = dates.drop_while { |m| m.date == date }
-          end
         end
       end
     end
